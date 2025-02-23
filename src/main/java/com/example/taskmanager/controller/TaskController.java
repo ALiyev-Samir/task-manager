@@ -1,29 +1,42 @@
 package com.example.taskmanager.controller;
 
+import com.example.taskmanager.entity.Task;
+import com.example.taskmanager.service.TaskService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/tasks")
 public class TaskController {
+    private TaskService taskService;
 
     @PostMapping
-    public ResponseEntity<String> createTask() {
-        return ResponseEntity.ok("Создание задачи работает");
+    public void createTask(@RequestBody Task newTask) {
+        taskService.createTask(newTask);
     }
 
     @GetMapping
-    public ResponseEntity<String> getAllTasks() {
-        return ResponseEntity.ok("Получение всех задач работает");
+    public List<Task> getAllTasks() {
+        return taskService.getTasks();
+    }
+
+    @GetMapping("/{id}")
+    public void updateTask(@PathVariable Long id) {
+        taskService.getTask(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateTask(@PathVariable Long id) {
-        return ResponseEntity.ok("Обновление задачи " + id + " работает");
+    public void updateTask(@PathVariable Long id, @RequestBody Task updateTask) {
+        taskService.updateTask(id, updateTask);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable Long id) {
-        return ResponseEntity.ok("Удаление задачи " + id + " работает");
+    public void deleteTask(@PathVariable Long id) {
+        taskService.removeTask(id);
     }
 }
