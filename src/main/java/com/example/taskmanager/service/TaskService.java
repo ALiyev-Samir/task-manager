@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface TaskService {
     public List<Task> getTasks();
     public void createTask(Task task);
-    public void updateTask(long id, Task task);
-    public Optional<Task> getTask(long id);
-    public void removeTask(long id);
+    public void updateTask(Long id, Task task);
+    public Optional<Task> getTask(Long id);
+    public void removeTask(Long id);
 }

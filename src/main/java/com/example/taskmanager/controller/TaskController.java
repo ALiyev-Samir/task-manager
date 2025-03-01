@@ -8,12 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tasks")
 public class TaskController {
-    private TaskService taskService;
+    private final TaskService taskService;
 
     @PostMapping
     public void createTask(@RequestBody Task newTask) {
@@ -26,8 +27,8 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public void updateTask(@PathVariable Long id) {
-        taskService.getTask(id);
+    public Optional<Task> getTask(@PathVariable Long id) {
+        return taskService.getTask(id);
     }
 
     @PutMapping("/{id}")

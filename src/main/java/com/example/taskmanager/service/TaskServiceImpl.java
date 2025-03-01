@@ -1,6 +1,8 @@
 package com.example.taskmanager.service;
 
 import com.example.taskmanager.entity.Task;
+import com.example.taskmanager.repository.TaskRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -10,39 +12,31 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
-    private final List<Task> tasks = new ArrayList<>();
+    private final TaskRepository taskRepository;
     @Override
     public List<Task> getTasks() {
-        return tasks;
+        return taskRepository.findAll();
     }
 
     @Override
     public void createTask(Task newTask) {
-        tasks.add(newTask);
+        taskRepository.save(newTask);
     }
 
     @Override
-    public void updateTask(long id, Task updateTask) {
-        tasks.stream()
-           .filter(task -> task.getId().equals(id))
-           .findFirst()
-           .ifPresent(task -> {
-                task.setTitle(updateTask.getTitle());
-                task.setStatus(updateTask.getStatus());
-           });
-
+    public void updateTask(Long id, Task updateTask) {
+        taskRepository.save(updateTask);
     }
 
     @Override
-    public Optional<Task> getTask(long id) {
-        return tasks.stream()
-           .filter(task -> task.getId().equals(id))
-           .findFirst();
+    public Optional<Task> getTask(Long id) {
+        return taskRepository.findById(id);
     }
 
     @Override
-    public void removeTask(long id) {
-        tasks.removeIf(task -> task.getId().equals(id));
+    public void removeTask(Long id) {
+        taskRepository.deleteById(id);
     }
 }
