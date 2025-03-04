@@ -11,6 +11,6 @@ public interface TaskService {
     public List<Task> getTasks();
     public void createTask(Task task);
     public void updateTask(Long id, Task task);
-    public Optional<Task> getTask(Long id);
+    public Task getTask(Long id);
     public void removeTask(Long id);
 }
